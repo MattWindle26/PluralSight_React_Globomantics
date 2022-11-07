@@ -1,9 +1,11 @@
+import currencyFormatter from "../helpers/currencyFormatter.js";
+
 const HouseRow = ({house}) => {
     return (
         <tr>
             <td>{house.address}</td>
             <td>{house.country}</td>
-            <td>{house.price}</td>
+            <td>{currencyFormatter.format(house.price)}</td>
         </tr>
     )
 }
