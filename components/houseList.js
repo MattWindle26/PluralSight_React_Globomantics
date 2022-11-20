@@ -1,18 +1,14 @@
-import { useState, useEffect } from "react";
-import HouseRowMem from "./houseRow";
+import useHouses from "../hooks/useHouses";
+import HouseRow from "./houseRow";
+import LoadingIndicator from "./loadingIndicator";
+import loadingStatus from "../helpers/loadingStatus";
 
 
 const HouseList = () => {
-    const [houses, setHouses] = useState([]);
 
-    useEffect(() => {
-      const fetchHouses = async () => {
-        const response = await fetch("./houses.json");
-        const houses = await response.json();
-        setHouses(houses.houses);
-      };
-      fetchHouses();
-    }, []);
+  const {houses, setHouses, loadingState} = useHouses();
+  if(loadingState !== loadingStatus.loaded)
+  return <LoadingIndicator loadingState={loadingState} />
 
     const addHouse = () => {
         setHouses([
@@ -42,7 +38,7 @@ const HouseList = () => {
           </tr>
         </thead>
         <tbody>
-            {houses.map(h => <HouseRowMem key={h.id} house={h} />)}
+            {houses.map(h => <HouseRow key={h.id} house={h} />)}
         </tbody>
       </table>
       <button className="btn btn-primary" onClick={addHouse}>Add</button>
